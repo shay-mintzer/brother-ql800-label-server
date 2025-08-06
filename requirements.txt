@@ -1,0 +1,5 @@
+flask>=2.0.0
+pillow>=8.0.0
+brother-ql>=0.9.4
+requests>=2.25.0
+pyusb>=1.2.0 

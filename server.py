@@ -6,6 +6,8 @@ import subprocess
 import threading
 import time
 import requests
+import os
+import platform
 
 from brother_ql.raster import BrotherQLRaster
 from brother_ql.conversion import convert
@@ -18,6 +20,42 @@ logging.basicConfig(level=logging.INFO)
 PRINTER_USB = "usb://0x04f9:0x209b"
 MODEL = "QL-800"
 LABEL_SIZE = "62"  # Changed back to 62mm continuous labels
+
+def get_system_fonts():
+    """Get appropriate font paths based on the operating system"""
+    system = platform.system().lower()
+    
+    if system == "darwin":  # macOS
+        elegant_fonts = [
+            "/System/Library/Fonts/Avenir.ttc",
+            "/System/Library/Fonts/Futura.ttc", 
+            "/System/Library/Fonts/Optima.ttc",
+            "/System/Library/Fonts/Palatino.ttc",
+            "/System/Library/Fonts/Supplemental/Baskerville.ttc",
+            "/System/Library/Fonts/Supplemental/Garamond.ttc",
+            "/Library/Fonts/Georgia.ttf",
+            "/System/Library/Fonts/Supplemental/Hoefler Text.ttc"
+        ]
+        date_fonts = [
+            "/System/Library/Fonts/Helvetica.ttf",
+            "/System/Library/Fonts/Arial.ttf",
+            "/System/Library/Fonts/Avenir.ttc"
+        ]
+    else:  # Linux/Raspberry Pi
+        elegant_fonts = [
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+        ]
+        date_fonts = [
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf"
+        ]
+    
+    return elegant_fonts, date_fonts
 
 def start_ngrok():
     """Start ngrok tunnel for the Flask server"""
@@ -52,7 +90,11 @@ def start_ngrok():
             
     except Exception as e:
         logging.error(f"Failed to start ngrok: {e}")
-        logging.info("Install ngrok with: brew install ngrok")
+        system = platform.system().lower()
+        if system == "darwin":
+            logging.info("Install ngrok with: brew install ngrok")
+        else:
+            logging.info("Install ngrok with: sudo apt install ngrok")
 
 def create_label_image(text: str):
     # 62mm continuous labels are 696 pixels wide
@@ -65,24 +107,8 @@ def create_label_image(text: str):
     # Date formatting without seconds
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     
-    # Elegant serif fonts (sophisticated and beautiful)
-    elegant_fonts = [
-        "/System/Library/Fonts/Palatino.ttc",
-        "/System/Library/Fonts/Supplemental/Baskerville.ttc",
-        "/System/Library/Fonts/Supplemental/Garamond.ttc",
-        "/Library/Fonts/Georgia.ttf",
-        "/System/Library/Fonts/Supplemental/Hoefler Text.ttc",
-        "/System/Library/Fonts/Times New Roman.ttf",
-        "/System/Library/Fonts/Supplemental/Cochin.ttc",
-        "/System/Library/Fonts/Charter.ttc"
-    ]
-    
-    # Clean fonts for date
-    date_fonts = [
-        "/System/Library/Fonts/Helvetica.ttf",
-        "/System/Library/Fonts/Arial.ttf",
-        "/System/Library/Fonts/Avenir.ttc"
-    ]
+    # Get cross-platform fonts
+    elegant_fonts, date_fonts = get_system_fonts()
     
     # Draw date in top-left corner with clean font
     date_font_size = 40
@@ -91,8 +117,9 @@ def create_label_image(text: str):
     try:
         for font_path in date_fonts:
             try:
-                date_font = ImageFont.truetype(font_path, date_font_size)
-                break
+                if os.path.exists(font_path):
+                    date_font = ImageFont.truetype(font_path, date_font_size)
+                    break
             except:
                 continue
         if date_font is None:
@@ -152,9 +179,10 @@ def create_label_image(text: str):
             font_loaded = False
             for font_path in elegant_fonts:
                 try:
-                    main_font = ImageFont.truetype(font_path, font_size)
-                    font_loaded = True
-                    break
+                    if os.path.exists(font_path):
+                        main_font = ImageFont.truetype(font_path, font_size)
+                        font_loaded = True
+                        break
                 except:
                     continue
             
@@ -162,9 +190,10 @@ def create_label_image(text: str):
             if not font_loaded:
                 for font_path in date_fonts:
                     try:
-                        main_font = ImageFont.truetype(font_path, font_size)
-                        font_loaded = True
-                        break
+                        if os.path.exists(font_path):
+                            main_font = ImageFont.truetype(font_path, font_size)
+                            font_loaded = True
+                            break
                     except:
                         continue
             
