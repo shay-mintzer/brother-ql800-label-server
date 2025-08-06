@@ -65,15 +65,16 @@ def create_label_image(text: str):
     # Date formatting without seconds
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     
-    # Elegant but readable fonts (nice middle ground)
+    # Elegant serif fonts (sophisticated and beautiful)
     elegant_fonts = [
-        "/System/Library/Fonts/Avenir.ttc",
-        "/System/Library/Fonts/Futura.ttc", 
-        "/System/Library/Fonts/Optima.ttc",
-        "/System/Library/Fonts/Trebuchet MS.ttf",
-        "/System/Library/Fonts/Geneva.ttf",
-        "/Library/Fonts/Verdana.ttf",
-        "/System/Library/Fonts/Lucida Grande.ttc"
+        "/System/Library/Fonts/Palatino.ttc",
+        "/System/Library/Fonts/Supplemental/Baskerville.ttc",
+        "/System/Library/Fonts/Supplemental/Garamond.ttc",
+        "/Library/Fonts/Georgia.ttf",
+        "/System/Library/Fonts/Supplemental/Hoefler Text.ttc",
+        "/System/Library/Fonts/Times New Roman.ttf",
+        "/System/Library/Fonts/Supplemental/Cochin.ttc",
+        "/System/Library/Fonts/Charter.ttc"
     ]
     
     # Clean fonts for date
