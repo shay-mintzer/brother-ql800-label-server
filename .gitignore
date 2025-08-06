@@ -62,4 +62,4 @@ print.log
 
 # Ngrok
 ngrok
-ngrok.yml 
+ngrok.yml *.png
