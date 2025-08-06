@@ -64,3 +64,4 @@ print.log
 ngrok
 ngrok.yml *.png
 label_part_*.png
+proportional_fit_preview.png
