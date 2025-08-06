@@ -43,12 +43,12 @@ def get_system_fonts():
         ]
     else:  # Linux/Raspberry Pi
         elegant_fonts = [
-            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
             "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
             "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
-            "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+            "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf"
         ]
         date_fonts = [
             "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
@@ -303,7 +303,8 @@ def print_label():
         if not data or 'text' not in data:
             return jsonify({"error": "Missing 'text' in request body"}), 400
 
-        text = data['text']
+        # Apply title case formatting: "apple juice" -> "Apple Juice"
+        text = data['text'].title()
         logging.info(f"Creating label for: {text}")
 
         # Check printer connection first
