@@ -63,3 +63,4 @@ print.log
 # Ngrok
 ngrok
 ngrok.yml *.png
+label_part_*.png
