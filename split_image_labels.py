@@ -36,24 +36,20 @@ def load_and_prepare_image(image_path, target_height=None, num_labels_desired=5)
         if img.mode != 'RGB':
             img = img.convert('RGB')
         
+        # No rotation - keep original orientation as requested
+        logging.info("📐 Keeping original orientation (no rotation)")
+        
         # Calculate target height (use label height if not specified)
         if target_height is None:
             target_height = LABEL_HEIGHT
         
-        # Calculate minimum width to span desired number of labels
-        min_width = LABEL_WIDTH * num_labels_desired
+        # Force exactly 5 labels as requested
+        target_width = LABEL_WIDTH * num_labels_desired
+        logging.info(f"🎯 Creating exactly {num_labels_desired} labels")
         
-        # Calculate width maintaining aspect ratio
-        aspect_ratio = img.size[0] / img.size[1]
-        natural_width = int(target_height * aspect_ratio)
-        
-        # Use the larger of natural width or minimum width
-        target_width = max(natural_width, min_width)
-        
-        # Resize image
+        # Resize image to fit exactly 5 labels
         img = img.resize((target_width, target_height), Image.Resampling.LANCZOS)
-        logging.info(f"📐 Resized to: {img.size[0]}x{img.size[1]} pixels")
-        logging.info(f"🎯 Will span {math.ceil(target_width / LABEL_WIDTH)} labels")
+        logging.info(f"📐 Final size: {img.size[0]}x{img.size[1]} pixels")
         
         return img
         
