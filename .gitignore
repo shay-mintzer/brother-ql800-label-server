@@ -65,3 +65,5 @@ ngrok
 ngrok.yml *.png
 label_part_*.png
 proportional_fit_preview.png
+horizontal_preview.png
+vertical_preview.png
