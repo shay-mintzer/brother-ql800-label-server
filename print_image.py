@@ -121,6 +121,8 @@ def print_image(image_path, orientation="horizontal"):
         
         # Convert to printer instructions
         qlr = BrotherQLRaster(MODEL)
+        if LABEL_SIZE == 29:
+            qlr.label_name = '29x90'   # for DK-11201
         qlr.exception_on_warning = True
 
         red = True if LABEL_SIZE == "62" else False  # Use red for DK-22251 tape
