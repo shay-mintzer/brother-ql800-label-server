@@ -238,8 +238,9 @@ def main():
     image_input = sys.argv[1]  # Can be file path or URL
     orientation = sys.argv[2] if len(sys.argv) > 2 else "horizontal"
 
-    label_size = sys.argv[3] if len(sys.argv) > 3 else LABEL_SIZE
-    
+    global LABEL_SIZE
+    LABEL_SIZE = sys.argv[3] if len(sys.argv) > 3 else LABEL_SIZE
+
     # Check if input is URL or local file
     is_url_input = is_url(image_input)
     
