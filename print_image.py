@@ -199,7 +199,7 @@ def print_image(image_path, orientation="horizontal", is_temp_file=False):
             threshold=70.0,
             dither=False,
             compress=True,
-            red=True,  # For DK-22251 red/black tape
+            red=False,  # For DK-22251 red/black tape
             dpi_600=False
         )
         
