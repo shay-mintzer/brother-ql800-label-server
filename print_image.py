@@ -158,7 +158,7 @@ def process_image(image_path, orientation="horizontal"):
             final_size = (proportional_width, target_height)
         
         # Resize to final dimensions
-        img = img.resize(final_size, Image.Resampling.LANCZOS)
+        img = img.resize(final_size, Image.LANCZOS)
         logging.info(f"📐 Final size: {final_size[0]}x{final_size[1]} pixels")
         
         if orientation == "vertical":
