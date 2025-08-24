@@ -162,6 +162,9 @@ def main():
     image_path = sys.argv[1]
     orientation = sys.argv[2] if len(sys.argv) > 2 else "horizontal"
 
+    global LABEL_SIZE
+    LABEL_SIZE = sys.argv[3] if len(sys.argv) > 3 else "62"  # Optional label size argument
+
     # Validate arguments
     if not os.path.exists(image_path):
         print(f"❌ Image file not found: {image_path}")
