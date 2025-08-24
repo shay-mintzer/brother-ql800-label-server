@@ -125,10 +125,11 @@ def print_image(image_path, orientation="horizontal"):
 
         red = True if LABEL_SIZE == "62" else False  # Use red for DK-22251 tape
 
+
         instructions = convert(
             qlr=qlr,
             images=[img],
-            label=LABEL_SIZE,
+            label=LABEL_SIZE if LABEL_SIZE == 62 else None,
             rotate='0',
             threshold=70.0,
             dither=False,
