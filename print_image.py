@@ -131,7 +131,7 @@ def print_image(image_path, orientation="horizontal"):
         instructions = convert(
             qlr=qlr,
             images=[img],
-            label=LABEL_SIZE if LABEL_SIZE == 62 else None,
+            label=LABEL_SIZE,
             rotate='0',
             threshold=70.0,
             dither=False,
