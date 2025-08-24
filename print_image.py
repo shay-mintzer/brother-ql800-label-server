@@ -122,7 +122,9 @@ def print_image(image_path, orientation="horizontal"):
         # Convert to printer instructions
         qlr = BrotherQLRaster(MODEL)
         qlr.exception_on_warning = True
-        
+
+        red = True if LABEL_SIZE == "62" else False  # Use red for DK-22251 tape
+
         instructions = convert(
             qlr=qlr,
             images=[img],
@@ -131,7 +133,7 @@ def print_image(image_path, orientation="horizontal"):
             threshold=70.0,
             dither=False,
             compress=True,
-            red=True,  # For DK-22251 red/black tape
+            red=red,  # For DK-22251 red/black tape
             dpi_600=False
         )
         
