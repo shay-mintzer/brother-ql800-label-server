@@ -158,7 +158,7 @@ def process_image(image_path, orientation="horizontal"):
             final_size = (proportional_width, target_height)
         
         # Resize to final dimensions
-        img = img.resize(final_size, Image.LANCZOS)
+        img = img.resize(final_size, Image.Resampling.LANCZOS)
         logging.info(f"📐 Final size: {final_size[0]}x{final_size[1]} pixels")
         
         if orientation == "vertical":
@@ -199,7 +199,7 @@ def print_image(image_path, orientation="horizontal", is_temp_file=False):
             threshold=70.0,
             dither=False,
             compress=True,
-            red=False,  # For DK-22251 red/black tape
+            red=True,  # For DK-22251 red/black tape
             dpi_600=False
         )
         
